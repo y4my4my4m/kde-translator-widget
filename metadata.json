@@ -8,7 +8,7 @@
         ],
         "Category": "Language",
         "Description": "A translation tool",
-        "Icon": "localization",
+        "Icon": "language-chooser",
         "Id": "com.github.y4my4m.kde-translator-widget",
         "Name": "kde-translator-widget",
         "Version": "1",
