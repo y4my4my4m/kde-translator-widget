@@ -11,7 +11,7 @@
         "Icon": "language-chooser",
         "Id": "com.github.y4my4m.kde-translator-widget",
         "Name": "kde-translator-widget",
-        "Version": "1",
+        "Version": "1.0.0",
         "Website": "https://github.com/y4my4my4m/kde-translator-widget"
     },
     "KPackageStructure": "Plasma/Applet",
