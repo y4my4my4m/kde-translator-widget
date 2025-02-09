@@ -106,7 +106,7 @@ PlasmoidItem {
             outputTextArea.text = text.split("").reverse().join("");
         } else if (root.translationEngine === "google") {
             // Google Translate API call
-            var apiKey = plasmoid.config.googleApiKey;
+            var apiKey = Plasmoid.configuration.googleApiKey;
             if (!apiKey) {
                 outputTextArea.text = "Google API key not set in configuration."
                 return;
@@ -141,17 +141,17 @@ PlasmoidItem {
             xhr.send(JSON.stringify(params));
         } else if (root.translationEngine === "openai") {
             // AI (LLM) translation using the OpenAI API
-            var apiKey = plasmoid.config.openaiApiKey;
+            var apiKey = Plasmoid.configuration.openaiApiKey;
             if (!apiKey) {
                 outputTextArea.text = "OpenAI API key not set in configuration.";
                 return;
             }
             // Use the model from configuration, defaulting to "gpt-4o-mini"
-            var model = plasmoid.config.openaiModel ? plasmoid.config.openaiModel : "gpt-4o-mini";
+            var model = Plasmoid.configuration.openaiModel ? Plasmoid.configuration.openaiModel : "gpt-4o-mini";
             var url = "https://api.openai.com/v1/chat/completions";
 
             // The system prompt instructs the model to produce a native-sounding translation.
-            var systemPrompt = "Translate into native sounding " + root.toLang + ":\n\n";
+            var systemPrompt = "Translate the following into native sounding " + root.toLang + ". Make sure it doesn't sound auto-translated:\n\n";
             // The user's text is provided as the user message.
             var payload = {
                 model: model,
