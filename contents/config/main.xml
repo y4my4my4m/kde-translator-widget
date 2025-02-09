@@ -12,11 +12,14 @@
             <default></default>
         </entry>
         <entry name="openaiModel" type="Enum">
-        <default>gpt-4o-mini</default>
-        <choices>
-            <choice name="gpt-4o-mini"/>
-            <choice name="gpt-4o"/>
-        </choices>
+            <default>gpt-4o-mini</default>
+            <choices>
+                <choice name="gpt-4o-mini"/>
+                <choice name="gpt-4o"/>
+            </choices>
+        </entry>
+        <entry name="systemPrompt" type="String">
+            <default>Translate the following into native sounding ${root.toLang}. Make sure it doesn't sound auto-translated:\n\n</default>
         </entry>
     </group>
 </kcfg>

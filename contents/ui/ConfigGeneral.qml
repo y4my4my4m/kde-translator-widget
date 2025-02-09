@@ -11,6 +11,7 @@ Item {
     property alias cfg_googleApiKey: googleKeyField.text
     property alias cfg_openaiApiKey: openaiKeyField.text
     property alias cfg_openaiModel: openaiModelCombo.currentText
+    property alias cfg_systemPrompt: systemPromptField.text
 
     Kirigami.FormLayout {
         anchors.left: parent.left
@@ -29,11 +30,18 @@ Item {
             placeholderText: i18n("Enter your OpenAI API key")
         }
 
-         QQC2.ComboBox {
+        QQC2.ComboBox {
             Kirigami.FormData.label: i18n("OpenAI Model")
             id: openaiModelCombo
             model: ["gpt-4o", "gpt-4o-mini"]
             currentIndex: model.indexOf("gpt-4o-mini")
+        }
+
+
+        QQC2.TextField {
+            Kirigami.FormData.label: i18n("System Prompt")
+            id: systemPromptField
+            placeholderText: i18n("Enter the default System Prompt")
         }
     }
 }

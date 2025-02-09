@@ -62,10 +62,13 @@ PlasmoidItem {
         }
 
         // Text input where the user enters text to be translated
-        PlasmaComponents.TextField {
+        PlasmaComponents.TextArea {
             id: inputTextField
             placeholderText: "Enter text to translate"
+            readOnly: false
+            wrapMode: TextEdit.Wrap
             Layout.fillWidth: true
+            Layout.fillHeight: true
         }
 
         // Drop-down to select the translation engine
@@ -108,6 +111,7 @@ PlasmoidItem {
             id: outputTextArea
             placeholderText: "Translation appears here..."
             readOnly: true
+            wrapMode: TextEdit.Wrap
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
@@ -169,7 +173,7 @@ PlasmoidItem {
             
             // If conversation history is empty, add the system prompt
             if (root.openaiChatHistory.length === 0) {
-                var systemPrompt = "Translate the following into native sounding " + root.toLang + ". Make sure it doesn't sound auto-translated:\n\n";
+                var systemPrompt = Plasmoid.configuration.systemPrompt.replace("${root.toLang}", root.toLang);
                 root.openaiChatHistory.push({ role: "system", content: systemPrompt });
             }
             
