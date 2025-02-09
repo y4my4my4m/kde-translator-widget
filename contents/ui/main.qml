@@ -14,8 +14,8 @@ PlasmoidItem {
 
     // Store selected languages and translation engine
     property string fromLang: "English"
-    property string toLang: "Spanish"
-    property string translationEngine: "offline"  // can be "offline", "google", or "openai"
+    property string toLang: "Japanese"
+    property string translationEngine: "openai"  // can be "offline", "google", or "openai"
 
     ColumnLayout {
         anchors.fill: parent
@@ -28,7 +28,7 @@ PlasmoidItem {
             PlasmaComponents.ComboBox {
                 id: fromLangCombo
                 Layout.fillWidth: true
-                model: ["English", "Spanish", "German", "French", "Italian", "Japanese", "Chinese", "Russian"]  // Extend this list as needed
+                model: ["English", "Spanish", "German", "French", "Italian", "Japanese", "Chinese (Mandarin)", "Chinese (Cantonese)", "Russian"]  // Extend this list as needed
                 currentIndex: model.indexOf(root.fromLang)
                 onCurrentIndexChanged: {
                     root.fromLang = model[currentIndex]
@@ -51,7 +51,7 @@ PlasmoidItem {
             PlasmaComponents.ComboBox {
                 id: toLangCombo
                 Layout.fillWidth: true
-                model: ["English", "Spanish", "German", "French", "Italian", "Japanese", "Chinese", "Russian"] 
+                model: ["English", "Spanish", "German", "French", "Italian", "Japanese", "Chinese (Mandarin)", "Chinese (Cantonese)", "Russian"]
                 currentIndex: model.indexOf(root.toLang)
                 onCurrentIndexChanged: {
                     root.toLang = model[currentIndex]
