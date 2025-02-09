@@ -6,7 +6,7 @@
                 "Name": "y4my4my4m"
             }
         ],
-        "Category": "Tools",
+        "Category": "Language",
         "Description": "A translation tool",
         "Icon": "localization",
         "Id": "com.github.y4my4m.kde-translator-widget",

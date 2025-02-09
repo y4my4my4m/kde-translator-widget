@@ -1,8 +1,10 @@
-import QtQuick 2.15
-import QtQuick.Layouts 1.15
-import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 3.0 as PlasmaComponents
+import QtQuick
+import QtQuick.Layouts
+
+import org.kde.plasma.plasmoid
+import org.kde.plasma.components as PlasmaComponents
+import org.kde.kirigami as Kirigami
+
 
 PlasmoidItem {
     id: root
@@ -11,8 +13,8 @@ PlasmoidItem {
     preferredRepresentation: compactRepresentation
 
     // Store selected languages and translation engine
-    property string fromLang: "en"
-    property string toLang: "es"
+    property string fromLang: "English"
+    property string toLang: "Spanish"
     property string translationEngine: "offline"  // can be "offline", "google", or "openai"
 
     ColumnLayout {
@@ -26,7 +28,7 @@ PlasmoidItem {
             PlasmaComponents.ComboBox {
                 id: fromLangCombo
                 Layout.fillWidth: true
-                model: ["en", "es", "de", "fr", "it"]  // Extend this list as needed
+                model: ["English", "Spanish", "German", "French", "Italian", "Japanese", "Chinese", "Russian"]  // Extend this list as needed
                 currentIndex: model.indexOf(root.fromLang)
                 onCurrentIndexChanged: {
                     root.fromLang = model[currentIndex]
@@ -49,7 +51,7 @@ PlasmoidItem {
             PlasmaComponents.ComboBox {
                 id: toLangCombo
                 Layout.fillWidth: true
-                model: ["en", "es", "de", "fr", "it"]
+                model: ["English", "Spanish", "German", "French", "Italian", "Japanese", "Chinese", "Russian"] 
                 currentIndex: model.indexOf(root.toLang)
                 onCurrentIndexChanged: {
                     root.toLang = model[currentIndex]
@@ -141,17 +143,21 @@ PlasmoidItem {
             // AI (LLM) translation using the OpenAI API
             var apiKey = plasmoid.config.openaiApiKey;
             if (!apiKey) {
-                outputTextArea.text = "OpenAI API key not set in configuration."
+                outputTextArea.text = "OpenAI API key not set in configuration.";
                 return;
             }
+            // Use the model from configuration, defaulting to "gpt-4o-mini"
+            var model = plasmoid.config.openaiModel ? plasmoid.config.openaiModel : "gpt-4o-mini";
             var url = "https://api.openai.com/v1/chat/completions";
-            var prompt = "Translate the following text from " + root.fromLang +
-                         " to " + root.toLang + ":\n\n" + text;
+
+            // The system prompt instructs the model to produce a native-sounding translation.
+            var systemPrompt = "Translate into native sounding " + root.toLang + ":\n\n";
+            // The user's text is provided as the user message.
             var payload = {
-                model: "gpt-3.5-turbo",
+                model: model,
                 messages: [
-                    { role: "system", content: "You are a translation assistant." },
-                    { role: "user", content: prompt }
+                    { role: "system", content: systemPrompt },
+                    { role: "user", content: text }
                 ],
                 temperature: 0.3
             };
