@@ -14,6 +14,7 @@
 - [ ] Add all languages / autoload available google languages
 - [ ] Text To Speech
 - [ ] Speech to Text
+- [ ] Local Software Translation
 
 ---
 
