@@ -19,7 +19,10 @@
             </choices>
         </entry>
         <entry name="systemPrompt" type="String">
-            <default>Translate the following into native sounding ${root.toLang}. Make sure it doesn't sound auto-translated:\n\n</default>
+            <default>Translate the following into native sounding ${root.toLang}. Make sure it doesn't sound auto-translated. Only respond with the result. Do not respond in quotes, do not format it differently than the input.:\n\n</default>
+        </entry>
+        <entry name="customURL" type="String">
+            <default>https://api.openai.com/v1/chat/completions</default>
         </entry>
     </group>
 </kcfg>

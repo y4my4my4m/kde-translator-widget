@@ -12,6 +12,7 @@ Item {
     property alias cfg_openaiApiKey: openaiKeyField.text
     property alias cfg_openaiModel: openaiModelCombo.currentText
     property alias cfg_systemPrompt: systemPromptField.text
+    property alias cfg_customURL: customURLField.text
 
     Kirigami.FormLayout {
         anchors.left: parent.left
@@ -37,11 +38,16 @@ Item {
             currentIndex: model.indexOf("gpt-4o-mini")
         }
 
-
         QQC2.TextField {
             Kirigami.FormData.label: i18n("System Prompt")
             id: systemPromptField
             placeholderText: i18n("Enter the default System Prompt")
+        }
+
+        QQC2.TextField {
+            Kirigami.FormData.label: i18n("Custom URL for local LLM server")
+            id: customURLField
+            placeholderText: i18n("http://localhost:1234/v1/chat/completions")
         }
     }
 }

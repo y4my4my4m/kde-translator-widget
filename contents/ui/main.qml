@@ -164,7 +164,7 @@ PlasmoidItem {
         } else if (root.translationEngine === "openai") {
            // AI (LLM) translation using the OpenAI API with conversation context
             var apiKey = Plasmoid.configuration.openaiApiKey;
-            if (!apiKey) {
+            if (!apiKey && !Plasmoid.configuration.customURL) {
                 outputTextArea.text = "OpenAI API key not set in configuration.";
                 return;
             }
@@ -180,7 +180,7 @@ PlasmoidItem {
             // Add the user's message to the conversation history.
             root.openaiChatHistory.push({ role: "user", content: text });
             
-            var url = "https://api.openai.com/v1/chat/completions";
+            var url = Plasmoid.configuration.customURL ? Plasmoid.configuration.customURL : "https://api.openai.com/v1/chat/completions";
             var payload = {
                 model: model,
                 messages: root.openaiChatHistory,
