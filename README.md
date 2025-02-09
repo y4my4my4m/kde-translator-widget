@@ -11,9 +11,9 @@
 
 ## Roadmap:
 
-- [] Add all languages / autoload available google languages
-- [] Text To Speech
-- [] Speech to Text
+- [ ] Add all languages / autoload available google languages
+- [ ] Text To Speech
+- [ ] Speech to Text
 
 ---
 
