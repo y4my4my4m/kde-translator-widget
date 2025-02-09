@@ -1,0 +1,19 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "y4my4m@protonmail.com",
+                "Name": "y4my4my4m"
+            }
+        ],
+        "Category": "Tools",
+        "Description": "A translation tool",
+        "Icon": "localization",
+        "Id": "com.github.y4my4m.kde-translator-widget",
+        "Name": "kde-translator-widget",
+        "Version": "1",
+        "Website": "https://github.com/y4my4my4m/kde-translator-widget"
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-Plasma-API-Minimum-Version": "6.0"
+}
