@@ -7,8 +7,7 @@
 - Google Translate (using google API)
 - Local Software Translation (TODO)
 
-![Screenshot_20250209_233222](https://github.com/user-attachments/assets/b5b3bd15-882f-4cc0-91cc-7d81c452b1cf)
-
+![Screenshot_20250210_002141](https://github.com/user-attachments/assets/1f3040a9-9993-4472-ba1d-7f0ac48aee2f)
 
 ---
 
