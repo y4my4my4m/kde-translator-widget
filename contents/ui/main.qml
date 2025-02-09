@@ -16,7 +16,9 @@ PlasmoidItem {
     property string fromLang: "English"
     property string toLang: "Japanese"
     property string translationEngine: "openai"  // can be "offline", "google", or "openai"
-
+    // Property to hold conversation history for OpenAI
+    property var openaiChatHistory: []
+    
     ColumnLayout {
         anchors.fill: parent
         spacing: 10
@@ -71,18 +73,34 @@ PlasmoidItem {
             id: engineComboBox
             Layout.fillWidth: true
             model: ["offline", "google", "openai"]
-            currentIndex: 0
+            currentIndex: 2
             onCurrentIndexChanged: {
                 root.translationEngine = model[currentIndex]
             }
         }
 
-        // Button to trigger translation
-        PlasmaComponents.Button {
-            id: translateButton
-            text: "Translate"
-            Layout.fillWidth: true
-            onClicked: translateText(inputTextField.text)
+        RowLayout {
+            spacing: 10
+            PlasmaComponents.Button {
+                id: translateButton
+                text: "Translate"
+                Layout.fillWidth: true
+                onClicked: translateText(inputTextField.text)
+            }
+
+            PlasmaComponents.Button {
+                id: newTopicButton
+                text: "+"
+                visible: root.translationEngine === "openai"
+                Layout.preferredWidth: 40
+                PlasmaComponents.ToolTip {
+                    text: "Start a new topic. The previously translated text is part of the AI conversation until a new topic is started, this is to help translation accuracy by keeping the AI aware of context."
+                }
+                onClicked: {
+                    root.openaiChatHistory = [];
+                    outputTextArea.text = "New topic started. Conversation cleared.";
+                }
+            }
         }
 
         // Read-only text area to display the translated text
@@ -140,7 +158,7 @@ PlasmoidItem {
             }
             xhr.send(JSON.stringify(params));
         } else if (root.translationEngine === "openai") {
-            // AI (LLM) translation using the OpenAI API
+           // AI (LLM) translation using the OpenAI API with conversation context
             var apiKey = Plasmoid.configuration.openaiApiKey;
             if (!apiKey) {
                 outputTextArea.text = "OpenAI API key not set in configuration.";
@@ -148,17 +166,20 @@ PlasmoidItem {
             }
             // Use the model from configuration, defaulting to "gpt-4o-mini"
             var model = Plasmoid.configuration.openaiModel ? Plasmoid.configuration.openaiModel : "gpt-4o-mini";
+            
+            // If conversation history is empty, add the system prompt
+            if (root.openaiChatHistory.length === 0) {
+                var systemPrompt = "Translate the following into native sounding " + root.toLang + ". Make sure it doesn't sound auto-translated:\n\n";
+                root.openaiChatHistory.push({ role: "system", content: systemPrompt });
+            }
+            
+            // Add the user's message to the conversation history.
+            root.openaiChatHistory.push({ role: "user", content: text });
+            
             var url = "https://api.openai.com/v1/chat/completions";
-
-            // The system prompt instructs the model to produce a native-sounding translation.
-            var systemPrompt = "Translate the following into native sounding " + root.toLang + ". Make sure it doesn't sound auto-translated:\n\n";
-            // The user's text is provided as the user message.
             var payload = {
                 model: model,
-                messages: [
-                    { role: "system", content: systemPrompt },
-                    { role: "user", content: text }
-                ],
+                messages: root.openaiChatHistory,
                 temperature: 0.3
             };
 
@@ -171,7 +192,10 @@ PlasmoidItem {
                     if (xhr.status === 200) {
                         var response = JSON.parse(xhr.responseText);
                         if (response.choices && response.choices.length > 0) {
-                            outputTextArea.text = response.choices[0].message.content.trim();
+                            // Add the assistant's reply to the history.
+                            var assistantMessage = { role: "assistant", content: response.choices[0].message.content.trim() };
+                            root.openaiChatHistory.push(assistantMessage);
+                            outputTextArea.text = assistantMessage.content;
                         } else {
                             outputTextArea.text = "Translation error: unexpected response.";
                         }
